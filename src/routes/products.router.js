@@ -64,5 +64,70 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.post('/', async (req, res) => {
+  try {
+    const { title, description, price, code, stock, category, status, thumbnails } = req.body;
+
+    // Validar campos requeridos
+    const requiredFields = ['title', 'price', 'code', 'stock', 'category'];
+    const missingFields = requiredFields.filter(field => !req.body[field] && req.body[field] !== 0);
+
+    if (missingFields.length > 0) {
+      return res.status(400).json({
+        status: 'error',
+        message: `Campos faltantes: ${missingFields.join(', ')}`
+      });
+    }
+
+    // Crear el producto
+    const newProduct = await Product.create({
+      title,
+      description,
+      price,
+      code,
+      stock,
+      category,
+      status,
+      thumbnails
+    });
+
+    return res.status(201).json({
+      status: 'success',
+      payload: newProduct
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: 'error',
+      message: 'Error al crear producto',
+      error: error.message
+    });
+  }
+});
+
+router.get('/:pid', async (req, res) => {
+  try {
+    const { pid } = req.params;
+    const product = await Product.findById(pid);
+
+    if (!product) {
+      return res.status(404).json({
+        status: 'error',
+        message: 'Producto no encontrado'
+      });
+    }
+
+    return res.json({
+      status: 'success',
+      payload: product
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: 'error',
+      message: 'Error al obtener producto',
+      error: error.message
+    });
+  }
+});
+
 export default router;
 
