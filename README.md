@@ -52,25 +52,43 @@ El servidor se ejecutará en `http://localhost:8080` (o el puerto especificado e
 ## Estructura del Proyecto
 
 ```
-src/
- ├── app.js                    # Configuración principal de Express
- ├── routes/
- │     ├── products.router.js  # Rutas API de productos
- │     ├── carts.router.js     # Rutas API de carritos
- │     └── views.router.js     # Rutas de vistas (Handlebars)
- ├── dao/
- │     ├── models/
- │     │     ├── product.model.js  # Modelo Mongoose de Product
- │     │     └── carts.model.js    # Modelo Mongoose de Cart
- │     └── managers/
- ├── views/
- │     ├── layouts/
- │     │      └── main.handlebars
- │     ├── products.handlebars
- │     ├── productDetail.handlebars
- │     └── cart.handlebars
- └── config/
-        └── database.js        # Configuración de conexión a MongoDB
+Entrega final/
+│
+├── node_modules/              # Dependencias de npm
+├── .env                       # Variables de entorno (no versionado)
+├── package.json               # Configuración del proyecto y dependencias
+├── package-lock.json          # Lock file de dependencias
+├── README.md                  # Documentación del proyecto
+│
+└── src/
+    │
+    ├── app.js                 # Archivo principal - Configuración de Express
+    │
+    ├── config/
+    │   └── database.js       # Configuración de conexión a MongoDB
+    │
+    ├── routes/
+    │   ├── products.router.js    # Rutas API de productos (GET, POST)
+    │   ├── carts.router.js       # Rutas API de carritos (GET, POST, PUT, DELETE)
+    │   └── views.router.js       # Rutas de vistas Handlebars
+    │
+    ├── dao/
+    │   ├── models/
+    │   │   ├── product.model.js      # Modelo Mongoose de Product (con paginación)
+    │   │   ├── products.model.js     # (archivo vacío/legacy)
+    │   │   └── carts.model.js        # Modelo Mongoose de Cart (con populate)
+    │   │
+    │   └── managers/
+    │       ├── ProductManagerMongo.js    # (archivo vacío/legacy)
+    │       └── CartManagerMongo.js       # (archivo vacío/legacy)
+    │
+    └── views/
+        ├── layouts/
+        │   └── main.handlebars          # Layout principal de Handlebars
+        │
+        ├── products.handlebars         # Vista de lista de productos (con paginación)
+        ├── productDetail.handlebars     # Vista de detalle de producto (con botón agregar al carrito)
+        └── cart.handlebars              # Vista del carrito (con productos populados)
 ```
 
 ## Endpoints de la API
